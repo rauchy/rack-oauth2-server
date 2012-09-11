@@ -352,6 +352,7 @@ module Rack
         rescue OAuthError=>error
           logger.error "RO2S: Authorization request error #{error.code}: #{error.message}" if logger
           params = { :error=>error.code, :error_description=>error.message, :state=>state }
+          uri = URI.parse(request.url)
           if response_type == "token"
             uri.fragment = Rack::Utils.build_query(params)
           else # response type is code, or invalid
