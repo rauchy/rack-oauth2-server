@@ -353,12 +353,12 @@ module Rack
           logger.error "RO2S: Authorization request error #{error.code}: #{error.message}" if logger
           params = { :error=>error.code, :error_description=>error.message, :state=>state }
           if response_type == "token"
-            redirect_uri.fragment = Rack::Utils.build_query(params)
+            uri.fragment = Rack::Utils.build_query(params)
           else # response type is code, or invalid
             params = Rack::Utils.parse_query(redirect_uri.query).merge(params)
-            redirect_uri.query = Rack::Utils.build_query(params)
+            uri.query = Rack::Utils.build_query(params)
           end
-          return redirect_to(redirect_uri)
+          return redirect_to(uri)
         end
       end
 
